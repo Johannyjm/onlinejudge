@@ -1,0 +1,19 @@
+<!-- 中略 -->
+<body>
+	<h1>{{ title }}</h1>
+	<p>{{ message }}</p>
+	
+	<!-- POSTのときの処理 -->
+	{%- if flag %}
+	<div><img src="{{ image_url }}" alt="{{ image_name }}"></div>
+	{%- endif %}
+	
+	<form action="/" method="POST" enctype="multipart/form-data">
+		<div>
+			<input type="file" name="file" accept="file/*" required>
+		</div>
+		<div>
+			<input type="submit" value="送信">
+		</div>
+	</form>
+</body>

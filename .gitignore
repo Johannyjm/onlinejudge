@@ -1,3 +1,6 @@
+.DS_Store
+generate_cases/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
