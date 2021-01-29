@@ -18,9 +18,22 @@ app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
 
 @app.route('/', methods=['GET'])
 def get():
+	randomword = (
+		'問題文', 
+		'長さ N の数列Aが与えられます、l, r が Q 個与えられるので', 
+		'a[l]〜a[r]の総和をQ行で出力してください。', 
+		'---', 
+		'制約', 
+		'1 <= N <= 2*10^5', 
+		'0 <= ai <= 10^9', 
+		'1 <= Q <= 2*10^5', 
+		'1 <= l <= r <= N', 
+		'---', 
+		'ソースコードを選択して下さい。( Python のみ)'
+		)
 	return render_template('index.html', \
-		title = 'SB Online Judge', \
-		message = 'ソースコードを選択して下さい。', \
+		title = 'Online Judge', \
+		randomword=randomword, \
 		flag = False)
 
 @app.route('/', methods=['POST'])
@@ -47,24 +60,30 @@ def post():
 	command = "python3 judge.py " + filepath + " 20"
 	proc = subprocess.run(command, shell=True, stdout=PIPE, stderr=PIPE)
 
-	# states = proc.get('stdout')
-	# is_ac = True
-	# for state in states:
-	# 	if(state[0] != 1): is_ac = False
+	if(proc.returncode != 0):
+		result = "RE"
 
-	return str(proc)
+	else:
+		out = proc.stdout
+		states = out.decode("UTF-8").split("\n")
 
-	# state = judge(filepath, 20)
-	# print(state)
-	# return str(state)
-	
-	
-	# return render_template('index.html', \
-	# 	title = 'Form Sample(post)', \
-	# 	message = 'アップロードされた画像({})'.format(filename), \
-	# 	flag = True, \
-	# 	image_name = filename, \
-	# 	image_url = filepath)
+		state_code = 0
+		max_time = 0
+		for state in states:
+			state = state.split()
+			if(len(state) != 3): continue
+			
+			if(state_code == 0 and state[1] == "2"): state_code = 1
+			if(state[1] == "4"): state_code = 2
+			max_time = max(max_time, float(state[2]))
+
+		result = ["AC", "WA", "TLE"][state_code]
+		result += " " + str(int(1000*round(max_time, 4))) + "ms"
+
+	return render_template('index.html', \
+		title = 'Online Judge', \
+		message = result, \
+		flag = True)
 
 # @timeout_decorator.timeout(2.0)
 # def process(filepath, i):
