@@ -85,55 +85,6 @@ def post():
 		message = result, \
 		flag = True)
 
-# @timeout_decorator.timeout(2.0)
-# def process(filepath, i):
-# 	print("2 ", end="")
-# 	command = "python3 " + filepath + " < static/testcase/in/" + i + ".in > static/testcase/userout/out"
-# 	proc = subprocess.run(command, shell=True, stdout=PIPE, stderr=PIPE)
-# 	print(proc)
-# 	print("3 ", end="")
-
-# class procClass:
-# 	@timeout(MAIN_PROCESS_TIMEOUT)
-# 	def main(self, filepath, i):
-		
-# 		command = "python3 " + filepath + " < static/testcase/in/" + i + ".in > static/testcase/userout/out"
-# 		start = time.time()
-# 		proc = subprocess.run(command, shell=True, stdout=PIPE, stderr=PIPE)
-# 		elapsed_time = time.time() - start
-
-# 		return elapsed_time
-
-# 	def clean_up(self):
-# 		pass
-
-
-# def judge(filepath, t):
-# 	state = [0] * t # 0: WJ, 1: AC, 2: WA, 3: TLE
-# 	for i in range(1, t+1):
-# 		tle_cnt = 0
-# 		while True:
-# 			process = procClass()
-# 			try:
-# 				elapsed_time = process.main(filepath, str(i))
-# 				if(elapsed_time > 2.0): raise TimeoutError
-# 				break
-
-# 			except TimeoutError:
-# 				tle_cnt += 1
-
-
-# 			if(tle_cnt == 3):
-# 				state[i-1] = 3
-# 				break
-		
-# 		if(filecmp.cmp("static/testcase/out/" + str(i) + ".out", "static/testcase/userout/out")):
-# 			state[i-1] = 1
-# 		else:
-# 			state[i-1] = 2
-
-# 	return state
-
 		
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
