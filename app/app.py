@@ -6,10 +6,6 @@ from datetime import datetime
 import random
 import subprocess
 from subprocess import PIPE
-import time
-from timeout_decorator import timeout, TimeoutError
-import filecmp
-MAIN_PROCESS_TIMEOUT = 3
 
 app = Flask(__name__)
 
